@@ -1,14 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import CoffeeLeaf from './CoffeeLeaf';
-
-const SLIDES = [
-  { id: 1, caption: "El primer encuentro",  horizontal: false, grad: "linear-gradient(150deg,#1E150D,#2E2014 55%,#1A130B)" },
-  { id: 2, caption: "Nuestro primer café",  horizontal: true,  grad: "linear-gradient(150deg,#1C130A,#2C1F13 55%,#180F08)" },
-  { id: 3, caption: "Nuestra aventura",     horizontal: false, grad: "linear-gradient(150deg,#21170D,#332218 55%,#1B130A)" },
-  { id: 4, caption: "La propuesta",         horizontal: true,  grad: "linear-gradient(150deg,#1B140C,#2A1E14 55%,#170F09)" },
-  { id: 5, caption: "Para siempre",         horizontal: false, grad: "linear-gradient(150deg,#1E140B,#301F13 55%,#180F08)" },
-];
+import CoffeeBranchSVG from './CoffeeBranchSVG';
+import SLIDES from '../slidesData';
 
 function Lightbox({ startIdx, onClose }) {
   const [lbCur, setLbCur] = useState(startIdx);
@@ -20,7 +13,7 @@ function Lightbox({ startIdx, onClose }) {
     setTimeout(onClose, 280);
   }, [onClose]);
 
-  const lbGoTo = (idx) => setLbCur(Math.max(0, Math.min(idx, SLIDES.length - 1)));
+  const lbGoTo = (idx) => setLbCur((idx % SLIDES.length + SLIDES.length) % SLIDES.length);
 
   /* keyboard nav */
   useEffect(() => {
@@ -99,18 +92,38 @@ function Lightbox({ startIdx, onClose }) {
           className="lightbox-img-wrap"
           onTouchStart={onLbTouchStart}
           onTouchEnd={onLbTouchEnd}
-          style={{ background: s.grad }}
+          style={{ background: s.img ? `url(${s.img})` : s.grad, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <div className="lightbox-slide-inner">
-            <CoffeeLeaf size={54} color="rgba(171,119,67,0.35)" rotate={-10} />
+            <div style={{ 
+              width: '120px', 
+              height: '120px',
+              transform: 'rotate(-10deg)',
+              opacity: 0.35,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <CoffeeBranchSVG />
+            </div>
             <p className="lightbox-caption">{s.caption}</p>
-            <CoffeeLeaf size={36} color="rgba(171,119,67,0.2)" rotate={20} />
+            <div style={{ 
+              width: '80px', 
+              height: '80px',
+              transform: 'rotate(20deg)',
+              opacity: 0.2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <CoffeeBranchSVG />
+            </div>
           </div>
         </div>
 
         {/* bottom nav */}
         <div className="lightbox-nav">
-          <button className="lightbox-nav-btn" onClick={() => lbGoTo(lbCur - 1)} aria-label="Anterior" disabled={lbCur === 0} style={{opacity: lbCur===0?0.35:1}}>
+          <button className="lightbox-nav-btn" onClick={() => lbGoTo(lbCur - 1)} aria-label="Anterior">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
           <div className="lightbox-dots">
@@ -118,7 +131,7 @@ function Lightbox({ startIdx, onClose }) {
               <button key={i} className={`lightbox-dot${i===lbCur?" active":""}`} onClick={() => lbGoTo(i)} aria-label={`Foto ${i+1}`} />
             ))}
           </div>
-          <button className="lightbox-nav-btn" onClick={() => lbGoTo(lbCur + 1)} aria-label="Siguiente" disabled={lbCur===SLIDES.length-1} style={{opacity:lbCur===SLIDES.length-1?0.35:1}}>
+          <button className="lightbox-nav-btn" onClick={() => lbGoTo(lbCur + 1)} aria-label="Siguiente">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
