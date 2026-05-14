@@ -65,7 +65,6 @@ function Carousel() {
   /* place track in the middle copy BEFORE first paint (no initial flash) */
   useLayoutEffect(() => {
     setTransform(START, false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* realign on resize using the latest virtIdx */

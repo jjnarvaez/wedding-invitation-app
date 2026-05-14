@@ -1,16 +1,80 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import CoffeePlantSVG from './CoffeePlantSVG';
 import CoffeeLeaf from './CoffeeLeaf';
 import CoffeeBranchSVG from './CoffeeBranchSVG';
+import { ReactComponent as CoffeeBranchRemasteredSVG } from './Coffe_branch_remastered_SVG.svg';
 import Carousel from './Carousel';
+import QuotesCarousel from './QuotesCarousel';
 import useReveal from '../hooks/useReveal';
 import useCountdown from '../hooks/useCountdown';
 import useGuests from '../hooks/useGuests';
 
 export default function BodaJuniorTatiana() {
   useReveal();
+  const [isDressCodeOpen, setIsDressCodeOpen] = useState(false);
+  const [isRecommendationsOpen, setIsRecommendationsOpen] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const audioRef = useRef(null);
   const { d, h, m, s } = useCountdown();
   const { g1, g2 } = useGuests();
+
+  useEffect(() => {
+    if (!isDressCodeOpen && !isRecommendationsOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsDressCodeOpen(false);
+        setIsRecommendationsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isDressCodeOpen, isRecommendationsOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = isDressCodeOpen || isRecommendationsOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isDressCodeOpen, isRecommendationsOpen]);
+
+  /* Audio background */
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const playAudio = async () => {
+      try {
+        await audio.play();
+        setIsAudioPlaying(true);
+      } catch (error) {
+        console.log('Audio autoplay blocked by browser');
+      }
+    };
+
+    // Intentar reproducir automáticamente
+    playAudio();
+
+    // Configurar loop infinito
+    audio.loop = true;
+    audio.volume = 0.1; // Volumen bajo para no ser intrusivo
+
+    return () => {
+      audio.pause();
+    };
+  }, []);
+
+  const toggleAudio = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isAudioPlaying) {
+      audio.pause();
+      setIsAudioPlaying(false);
+    } else {
+      audio.play();
+      setIsAudioPlaying(true);
+    }
+  };
 
   /* parallax hero corners */
   useEffect(() => {
@@ -78,13 +142,10 @@ export default function BodaJuniorTatiana() {
         </div>
 
         <div className="hero-leaf-row anim-in" style={{animationDelay:"1s"}}>
-          <CoffeeLeaf size={18} color="#AB7743" rotate={-20} />
-          <CoffeeLeaf size={22} color="#84593D" rotate={0} />
-          <CoffeeLeaf size={18} color="#AB7743" rotate={20} />
+            <div ><CoffeeBranchRemasteredSVG /></div>
         </div>
 
         <div className="scroll-hint anim-in" style={{animationDelay:"1.6s"}}>
-          <span>Scroll</span>
           <div className="scroll-line" />
         </div>
       </section>
@@ -117,14 +178,13 @@ export default function BodaJuniorTatiana() {
           <span className="section-label reveal">La invitación</span>
           <div className="divider reveal"><div className="divider-line" /><span className="divider-dot">✦</span><div className="divider-line" /></div>
           <p className="invite-body reveal">
-            Con la bendición de nuestras familias<br/>
-            y la alegría en el corazón,<br/><br/>
-            <strong style={{fontFamily:"'Playfair Display',serif",fontSize:"1.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)"}}>Junior &amp; Tatiana</strong>
-            <br/><br/>
-            {g1 ? <>{`tienen el honor de invitar especialmente a`}<br/>{inviteGuest}<br/><br/></> : null}
-            {`${g1 ? "" : "tienen el honor de invitarlos\n"}a celebrar juntos el inicio\nde su vida en matrimonio`.split('\n').map((line, i) => (
-              <span key={i}>{line}<br/></span>
-            ))}
+            Entre aromas de café, miradas de complicidad y un amor que ha crecido con el tiempo, hemos decidido comenzar el viaje más bonito de nuestras vidas.<br/>
+            <br/>
+            <strong style={{fontFamily:"'Playfair Display',serif",fontSize:"3.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)"}}>Junior &amp; Tatiana</strong>
+            <br/>
+            <br/>
+            Queremos invitarlos a compartir con nosotros este nuevo capítulo, celebrado entre sonrisas, amor y la calidez de quienes hacen parte de nuestra historia.
+            Será un honor tenerlos junto a nosotros en un día tan especial.
           </p>
           <div className="divider reveal"><div className="divider-line" /><span className="divider-dot">✦</span><div className="divider-line" /></div>
         </div>
@@ -137,35 +197,101 @@ export default function BodaJuniorTatiana() {
           <h2 className="section-title reveal">Todo lo que necesitas saber</h2>
           <div className="details-cards stagger">
             {[
-              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>, label:"Fecha", val:"4 de Septiembre", sub:"Viernes · 2026" },
+              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 6h16M4 11h16M4 16h16"/></svg>, label:"Recomendaciones", val:"Consejos", sub:"Tap para ver más" },
               { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label:"Horario", val:"4:00 PM", sub:"Recepción 7:00 PM" },
-              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>, label:"Etiqueta", val:"Formal", sub:"Tonos tierra y neutros" },
-            ].map(({icon,label,val,sub}) => (
-              <div key={label} className="detail-card reveal-scale">
-                <div className="detail-card-icon">{icon}</div>
-                <span className="detail-card-label">{label}</span>
-                <span className="detail-card-value">{val}</span>
-                <span className="detail-card-sub">{sub}</span>
-              </div>
-            ))}
+              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>, label:"Etiqueta", val:"Formal", sub:"Tap para ver más"},
+            ].map(({icon,label,val,sub}) => {
+              const isRecommendations = label === "Recomendaciones";
+              const isDressCode = label === "Etiqueta";
+              return (
+                <div
+                  key={label}
+                  className={`detail-card reveal-scale${isRecommendations || isDressCode ? " detail-card-clickable" : ""}`}
+                  onClick={isRecommendations ? () => setIsRecommendationsOpen(true) : isDressCode ? () => setIsDressCodeOpen(true) : undefined}
+                  role={isRecommendations || isDressCode ? "button" : undefined}
+                  tabIndex={isRecommendations || isDressCode ? 0 : undefined}
+                  onKeyDown={isRecommendations || isDressCode ? (e) => { if (e.key === "Enter" || e.key === " ") {
+                    if (isRecommendations) setIsRecommendationsOpen(true);
+                    if (isDressCode) setIsDressCodeOpen(true);
+                  }} : undefined}
+                  style={isRecommendations || isDressCode ? { cursor: "pointer" } : undefined}
+                >
+                  <div className="detail-card-icon">{icon}</div>
+                  <span className="detail-card-label">{label}</span>
+                  <span className="detail-card-value">{val}</span>
+                  <span className="detail-card-sub">{sub}</span>
+                  {(isRecommendations || isDressCode) && <span className="detail-card-link">Ver detalles</span>}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ── COFFEE QUOTE ── */}
+      {isDressCodeOpen && (
+        <div className="modal-overlay" onClick={() => setIsDressCodeOpen(false)}>
+          <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setIsDressCodeOpen(false)} aria-label="Cerrar detalles de etiqueta">
+              &times;
+            </button>
+            <div className="modal-content">
+              <h3 className="modal-title">Código de vestimenta</h3>
+              <p className="modal-text">Hemos soñado cada detalle de este día, y nos encantará que nos acompañen vistiendo acorde a esta celebración.</p>
+              <div className="modal-detail-list">
+                <div className="modal-detail-group">
+                  <h4>Hombres</h4>
+                  <ul>
+                    <li><strong>Estilo:</strong> Traje formal.</li>
+                    <li><strong>Colores sugeridos:</strong> Negro.</li>
+                    <li><strong>Accesorios:</strong> corbata, pañuelo de bolsillo.</li>
+                  </ul>
+                </div>
+                <div className="modal-detail-group">
+                  <h4>Mujeres</h4>
+                  <ul>
+                    <li><strong>Estilo:</strong> Vestido largo.</li>
+                    <li><strong>Colores sugeridos:</strong> crema, ocre, terracota y tonos apagados.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="modal-actions">
+              <button className="modal-btn" onClick={() => setIsDressCodeOpen(false)}>Entendido</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isRecommendationsOpen && (
+        <div className="modal-overlay" onClick={() => setIsRecommendationsOpen(false)}>
+          <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setIsRecommendationsOpen(false)} aria-label="Cerrar detalles de recomendaciones">
+              &times;
+            </button>
+            <div className="modal-content">
+              <h3 className="modal-title">Recomendaciones para invitados</h3>
+              <p className="modal-text">Queremos que esta experiencia sea tan cómoda como especial para todos ustedes, así que les dejamos algunas sugerencias importantes.</p>
+              <div className="modal-detail-list">
+                <div className="modal-detail-group">
+                  <ul>
+                    <li>Recuerda que estarás lejos de casa, no olvides tu chaqueta ya que en al noche puede hacer frio.</li>
+                    <li>Sabemos que la rumba estará increible, no olvides tu calzado de cambio, sin embargo, solo podrás usarlos en el momento de la fiesta.</li>
+                    <li>Para que no tengas preocupaciones, reserva tu transporte con tiempo; si quieres ir en tu vehiculo propio tendremos parqueaderos disponibles, pero, si vas a tomar, pide tu conductor elegido o contrata alguien que te lleve y recoja al final de la fiesta.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="modal-actions">
+              <button className="modal-btn" onClick={() => setIsRecommendationsOpen(false)}>Entendido</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── COFFEE QUOTES ── */}
       <div className="coffee-break reveal">
         <div className="coffee-bg-beans" />
-        <p className="coffee-quote">
-          <span className="coffee-open-quote">"</span>
-          Como el primer sorbo de café por la mañana,<br/>
-          así es nuestro amor: cálido, profundo y nuestro.
-        </p>
-        <span className="coffee-author">Junior &amp; Tatiana · Amantes del buen café</span>
-        <div className="coffee-leaves-row">
-          {[{ s:20, r:-25 },{ s:26, r:-10 },{ s:32, r:0 },{ s:26, r:10 },{ s:20, r:25 }].map(({s,r},i) => (
-            <CoffeeLeaf key={i} size={s} color="#B7957f" rotate={r} />
-          ))}
-        </div>
+        <QuotesCarousel />
       </div>
 
       {/* ── CAROUSEL ── */}
@@ -232,6 +358,21 @@ export default function BodaJuniorTatiana() {
         <div className="footer-names">Junior &amp; Tatiana</div>
         <p className="footer-sub">4 de Septiembre · 2026 · Monarch Campestre · Rionegro, Antioquia</p>
       </footer>
+
+      {/* Audio background */}
+      <audio ref={audioRef} preload="auto">
+        <source src="/assets/wedding-background-music.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+
+      {/* Audio control button */}
+      <button
+        onClick={toggleAudio}
+        className="audio-control"
+        aria-label={isAudioPlaying ? 'Pausar música de fondo' : 'Reproducir música de fondo'}
+      >
+        {isAudioPlaying ? '🔊' : '🔇'}
+      </button>
     </>
   );
 }
