@@ -92,34 +92,44 @@ function Lightbox({ startIdx, onClose }) {
           className="lightbox-img-wrap"
           onTouchStart={onLbTouchStart}
           onTouchEnd={onLbTouchEnd}
-          style={{ background: s.img ? `url(${s.img})` : s.grad, backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ 
+            background: s.img ? `url(${s.img})` : s.grad, 
+            backgroundSize: 'contain', 
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            aspectRatio: s.aspectRatio || '1/1'
+          }}
         >
-          <div className="lightbox-slide-inner">
-            <div style={{ 
-              width: '120px', 
-              height: '120px',
-              transform: 'rotate(-10deg)',
-              opacity: 0.35,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <CoffeeBranchSVG />
+          {!s.img && (
+            <div className="lightbox-slide-inner">
+              <div style={{ 
+                width: '120px', 
+                height: '120px',
+                transform: 'rotate(-10deg)',
+                opacity: 0.35,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <CoffeeBranchSVG />
+              </div>
+              <p className="lightbox-caption">{s.caption}</p>
+              <div style={{ 
+                width: '80px', 
+                height: '80px',
+                transform: 'rotate(20deg)',
+                opacity: 0.2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <CoffeeBranchSVG />
+              </div>
             </div>
-            <p className="lightbox-caption">{s.caption}</p>
-            <div style={{ 
-              width: '80px', 
-              height: '80px',
-              transform: 'rotate(20deg)',
-              opacity: 0.2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <CoffeeBranchSVG />
-            </div>
-          </div>
+          )}
         </div>
+
+        {s.img && <p className="lightbox-caption-image">{s.caption}</p>}
 
         {/* bottom nav */}
         <div className="lightbox-nav">

@@ -10,20 +10,24 @@ const QUOTES = [
     author: "Junior & Tatiana · Amantes del buen café"
   },
   {
-    text: "En cada taza de café, encuentro un recuerdo de ti. En cada momento juntos, encuentro la felicidad eterna.",
-    author: "Junior & Tatiana"
+    text: "Contigo entendí que el amor no era encontrar un destino, sino tener a quién llamar hogar en cada camino. ",
+    author: "Junior & Tatiana · Viajeros del mundo"
   },
   {
-    text: "Nuestro amor es como el café: intenso, aromático y mejor cuando se comparte.",
-    author: "Junior & Tatiana · Cafeteros enamorados"
+    text: "Ni la película más hermosa podría contar todo lo que siento cuando me miras como si aún fuera la primera vez.",
+    author: "Junior & Tatiana · Cineastas anónimos"
   },
   {
-    text: "Desde el primer café hasta el último, mi corazón late por ti. Te amo más que a cualquier bebida.",
-    author: "Junior & Tatiana"
+    text: "En un mundo lleno de ruido, tú sigues siendo la calma que encuentro en medio de todas mis mareas.",
+    author: "Junior & Tatiana · Adictos al mar"
   },
   {
-    text: "Como el café despierta los sentidos, tú despiertas mi alma. Juntos para siempre.",
-    author: "Junior & Tatiana · Eternos amantes del café"
+    text: "Si pudiera detener el tiempo en un instante, sería en uno de esos atardeceres donde tu mano y la mía entendieron que ya eran hogar.",
+    author: "Junior & Tatiana · Coleccionistas de atardeceres"
+  },
+  {
+    text: "Hay amores que brillan un momento… y luego está el nuestro, que aprendió a quedarse como la luna en el cielo.",
+    author: "Junior & Tatiana · Admiradores de la luna"
   }
 ];
 

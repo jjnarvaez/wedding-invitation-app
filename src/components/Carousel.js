@@ -206,7 +206,7 @@ function Carousel() {
         </button>
       </div>
 
-      <p style={{textAlign:"center",fontSize:"10px",letterSpacing:"0.2em",color:"#84593D",marginTop:"1rem",textTransform:"uppercase"}}>
+      <p style={{textAlign:"center",fontSize:"10px",letterSpacing:"0.2em",color:"var(--cream-bg)",marginTop:"1rem",textTransform:"uppercase"}}>
         Toca o haz clic en una foto para verla en grande
       </p>
 

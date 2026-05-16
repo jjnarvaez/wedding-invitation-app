@@ -11,11 +11,11 @@
  */
 
 const SLIDES = [
-  { id: 1, caption: "El primer encuentro", horizontal: false, img: "/assets/1.jpg", grad: "linear-gradient(150deg,#1E150D,#2E2014 55%,#1A130B)" },
-  { id: 2, caption: "Nuestro primer café", horizontal: true,  img: "/assets/2.jpg", grad: "linear-gradient(150deg,#1C130A,#2C1F13 55%,#180F08)" },
-  { id: 3, caption: "Nuestra aventura",    horizontal: false, img: "/assets/3.jpg", grad: "linear-gradient(150deg,#21170D,#332218 55%,#1B130A)" },
-  { id: 4, caption: "La propuesta",        horizontal: true,  img: "/assets/4.jpg", grad: "linear-gradient(150deg,#1B140C,#2A1E14 55%,#170F09)" },
-  { id: 5, caption: "Para siempre",        horizontal: false, img: "/assets/5.jpg", grad: "linear-gradient(150deg,#1E140B,#301F13 55%,#180F08)" },
+  { id: 1, caption: "El primer encuentro", horizontal: false, aspectRatio: "3/4", img: "/assets/1.jpg", grad: "linear-gradient(150deg,#1E150D,#2E2014 55%,#1A130B)" },
+  { id: 2, caption: "Nuestro primer café", horizontal: true,  aspectRatio: "4/3", img: "/assets/2.jpg", grad: "linear-gradient(150deg,#1C130A,#2C1F13 55%,#180F08)" },
+  { id: 3, caption: "Nuestra aventura",    horizontal: false, aspectRatio: "3/4", img: "/assets/3.jpg", grad: "linear-gradient(150deg,#21170D,#332218 55%,#1B130A)" },
+  { id: 4, caption: "La propuesta",        horizontal: true,  aspectRatio: "4/3", img: "/assets/4.jpg", grad: "linear-gradient(150deg,#1B140C,#2A1E14 55%,#170F09)" },
+  { id: 5, caption: "Para siempre",        horizontal: false, aspectRatio: "3/4", img: "/assets/5.jpg", grad: "linear-gradient(150deg,#1E140B,#301F13 55%,#180F08)" },
 ];
 
 export default SLIDES;
