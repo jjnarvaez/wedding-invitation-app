@@ -170,8 +170,6 @@ function Carousel() {
                 style={{ cursor: "pointer" }}
               >
                 <div className="slide-inner" style={{ background: bg }}>
-                  <CoffeeLeaf size={s.horizontal ? 30 : 38} color="rgba(171,119,67,0.45)" rotate={real % 2 === 0 ? -15 : 15} />
-                  <p className="slide-caption">{s.caption}</p>
                 </div>
 
                 <button

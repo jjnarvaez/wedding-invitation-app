@@ -92,15 +92,16 @@ function Lightbox({ startIdx, onClose }) {
           className="lightbox-img-wrap"
           onTouchStart={onLbTouchStart}
           onTouchEnd={onLbTouchEnd}
-          style={{ 
-            background: s.img ? `url(${s.img})` : s.grad, 
-            backgroundSize: 'contain', 
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            aspectRatio: s.aspectRatio || '1/1'
-          }}
+          style={s.img ? undefined : { background: s.grad, aspectRatio: s.aspectRatio || '1/1' }}
         >
-          {!s.img && (
+          {s.img ? (
+            <img
+              className="lightbox-img"
+              src={s.img}
+              alt={s.caption}
+              draggable="false"
+            />
+          ) : (
             <div className="lightbox-slide-inner">
               <div style={{ 
                 width: '120px', 
@@ -128,8 +129,6 @@ function Lightbox({ startIdx, onClose }) {
             </div>
           )}
         </div>
-
-        {s.img && <p className="lightbox-caption-image">{s.caption}</p>}
 
         {/* bottom nav */}
         <div className="lightbox-nav">

@@ -13,29 +13,31 @@ export default function BodaJuniorTatiana() {
   useReveal();
   const [isDressCodeOpen, setIsDressCodeOpen] = useState(false);
   const [isRecommendationsOpen, setIsRecommendationsOpen] = useState(false);
+  const [isItineraryOpen, setIsItineraryOpen] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const audioRef = useRef(null);
   const { d, h, m, s } = useCountdown();
   const { g1, g2 } = useGuests();
 
   useEffect(() => {
-    if (!isDressCodeOpen && !isRecommendationsOpen) return;
+    if (!isDressCodeOpen && !isRecommendationsOpen && !isItineraryOpen) return;
     const onKeyDown = (e) => {
       if (e.key === 'Escape') {
         setIsDressCodeOpen(false);
         setIsRecommendationsOpen(false);
+        setIsItineraryOpen(false);
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isDressCodeOpen, isRecommendationsOpen]);
+  }, [isDressCodeOpen, isRecommendationsOpen, isItineraryOpen]);
 
   useEffect(() => {
-    document.body.style.overflow = isDressCodeOpen || isRecommendationsOpen ? 'hidden' : '';
+    document.body.style.overflow = isDressCodeOpen || isRecommendationsOpen || isItineraryOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isDressCodeOpen, isRecommendationsOpen]);
+  }, [isDressCodeOpen, isRecommendationsOpen, isItineraryOpen]);
 
   /* Audio background */
   useEffect(() => {
@@ -200,30 +202,32 @@ export default function BodaJuniorTatiana() {
           <h2 className="section-title reveal">Todo lo que necesitas saber</h2>
           <div className="details-cards stagger">
             {[
-              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 6h16M4 11h16M4 16h16"/></svg>, label:"Recomendaciones", val:"Consejos", sub:"Tap para ver más" },
-              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label:"Horario", val:"4:00 PM", sub:"Recepción 7:00 PM" },
+              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 6h16M4 11h16M4 16h16"/></svg>, label:"Recomendaciones", val:"Importantes", sub:"Tap para ver más" },
+              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label:"Itinerario", val:"4:00 PM - 2:00 AM", sub:"Tap para ver más" },
               { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>, label:"Etiqueta", val:"Formal", sub:"Tap para ver más"},
             ].map(({icon,label,val,sub}) => {
               const isRecommendations = label === "Recomendaciones";
+              const isItinerary = label === "Itinerario";
               const isDressCode = label === "Etiqueta";
               return (
                 <div
                   key={label}
-                  className={`detail-card reveal-scale${isRecommendations || isDressCode ? " detail-card-clickable" : ""}`}
-                  onClick={isRecommendations ? () => setIsRecommendationsOpen(true) : isDressCode ? () => setIsDressCodeOpen(true) : undefined}
-                  role={isRecommendations || isDressCode ? "button" : undefined}
-                  tabIndex={isRecommendations || isDressCode ? 0 : undefined}
-                  onKeyDown={isRecommendations || isDressCode ? (e) => { if (e.key === "Enter" || e.key === " ") {
+                  className={`detail-card reveal-scale${isRecommendations || isItinerary || isDressCode ? " detail-card-clickable" : ""}`}
+                  onClick={isRecommendations ? () => setIsRecommendationsOpen(true) : isItinerary ? () => setIsItineraryOpen(true) : isDressCode ? () => setIsDressCodeOpen(true) : undefined}
+                  role={isRecommendations || isItinerary || isDressCode ? "button" : undefined}
+                  tabIndex={isRecommendations || isItinerary || isDressCode ? 0 : undefined}
+                  onKeyDown={isRecommendations || isItinerary || isDressCode ? (e) => { if (e.key === "Enter" || e.key === " ") {
                     if (isRecommendations) setIsRecommendationsOpen(true);
+                    if (isItinerary) setIsItineraryOpen(true);
                     if (isDressCode) setIsDressCodeOpen(true);
                   }} : undefined}
-                  style={isRecommendations || isDressCode ? { cursor: "pointer" } : undefined}
+                  style={isRecommendations || isItinerary || isDressCode ? { cursor: "pointer" } : undefined}
                 >
                   <div className="detail-card-icon">{icon}</div>
                   <span className="detail-card-label">{label}</span>
                   <span className="detail-card-value">{val}</span>
                   <span className="detail-card-sub">{sub}</span>
-                  {(isRecommendations || isDressCode) && <span className="detail-card-link">Ver detalles</span>}
+                  {(isRecommendations || isItinerary || isDressCode) && <span className="detail-card-link">Ver detalles</span>}
                 </div>
               );
             })}
@@ -265,6 +269,36 @@ export default function BodaJuniorTatiana() {
         </div>
       )}
 
+      {isItineraryOpen && (
+        <div className="modal-overlay" onClick={() => setIsItineraryOpen(false)}>
+          <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setIsItineraryOpen(false)} aria-label="Cerrar detalles de itinerario">
+              &times;
+            </button>
+            <div className="modal-content">
+              <h3 className="modal-title">Itinerario</h3>
+              <p className="modal-text">Nos encantará que puedan acompañarnos desde el inicio para vivir cada momento de esta celebración.</p>
+              <div className="modal-detail-list">
+                <div className="modal-detail-group">
+                  <ul>
+                    <li><strong>4:00 PM:</strong> Llegada de invitados.</li>
+                    <li><strong>4:30 PM:</strong> Ceremonia.</li>
+                    <li><strong>5:30 PM:</strong> Coctel y fotografías.</li>
+                    <li><strong>7:00 PM:</strong> Cena.</li>
+                    <li><strong>8:30 PM:</strong> Brindis y momentos especiales.</li>
+                    <li><strong>9:00 PM:</strong> Fiesta.</li>
+                    <li><strong>2:00 AM:</strong> Cierre del evento.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="modal-actions">
+              <button className="modal-btn" onClick={() => setIsItineraryOpen(false)}>Entendido</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isRecommendationsOpen && (
         <div className="modal-overlay" onClick={() => setIsRecommendationsOpen(false)}>
           <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
@@ -277,9 +311,12 @@ export default function BodaJuniorTatiana() {
               <div className="modal-detail-list">
                 <div className="modal-detail-group">
                   <ul>
-                    <li>Recuerda que estarás lejos de casa, no olvides tu chaqueta ya que en al noche puede hacer frio.</li>
-                    <li>Sabemos que la rumba estará increible, no olvides tu calzado de cambio, sin embargo, solo podrás usarlos en el momento de la fiesta.</li>
-                    <li>Para que no tengas preocupaciones, reserva tu transporte con tiempo; si quieres ir en tu vehiculo propio tendremos parqueaderos disponibles, pero, si vas a tomar, pide tu conductor elegido o contrata alguien que te lleve y recoja al final de la fiesta.</li>
+                    <li>La ceremonia comenzará puntualmente y no podremos retrasarla. Les recomendamos planear su salida con tiempo, ya que el lugar se encuentra a las afueras de la ciudad.Queremos compartir cada instante con ustedes desde el inicio.</li>
+                    <li>Las noches en este lugar suelen ser frías, así que no olviden llevar un abrigo o buzo para disfrutar cómodamente hasta el final de la celebración.</li>
+                    <li>Sabemos que la fiesta estará inolvidable, así que traigan sus mejores pasos… y también un calzado cómodo para la hora de bailar. Les pedimos usarlo únicamente durante la fiesta.</li>
+                    <li>El lugar contará con parqueadero disponible. Si planean disfrutar algunos tragos, les recomendamos asignar conductor elegido o contratar un servicio de transporte para regresar con tranquilidad.</li>
+                    <li>Hemos soñado esta celebración como una noche para disfrutar, brindar y bailar sin pausa; por eso, nuestro matrimonio será una celebración exclusiva para adultos.</li>
+                    <li>Su presencia será nuestro mejor regalo. Sin embargo, si desean acompañarnos con un detalle adicional, agradecemos su <b>lluvia de sobres.</b></li>
                   </ul>
                 </div>
               </div>
@@ -300,8 +337,8 @@ export default function BodaJuniorTatiana() {
       {/* ── CAROUSEL ── */}
       <section className="carousel-section">
         <div className="section-inner">
-          <span className="section-label reveal">Nuestra historia</span>
-          <h2 className="section-title reveal">Momentos que nos trajeron aquí</h2>
+          <span className="section-label reveal">Asi se ve</span>
+          <h2 className="section-title reveal">Nuestro amor</h2>
         </div>
         <Carousel />
       </section>

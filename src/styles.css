@@ -459,7 +459,7 @@ section {
 
 .detail-card-value {
   font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 400;
   color: var(--text-dark);
   display: block;
@@ -776,7 +776,7 @@ section {
   font-size: 1.25rem;
   color: rgba(245,237,215,0.55);
   line-height: 1.4;
-  text-align: center;
+  text-align: bottom;
   letter-spacing: 0.01em;
   transition: color 0.6s ease;
 }
@@ -871,7 +871,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
   animation: lbFadeIn 0.5s ease forwards;
 }
 
@@ -903,9 +903,8 @@ section {
 .lightbox-panel {
   position: relative;
   z-index: 2;
-  max-width: min(95vw, 900px);
-  max-height: 90svh;
-  width: 100%;
+  width: min(98vw, 1280px);
+  max-height: 96svh;
   display: flex;
   flex-direction: column;
   animation: lbSlideUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
@@ -959,11 +958,16 @@ section {
 .lightbox-img-wrap {
   position: relative;
   width: 100%;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: min(86svh, calc(100svh - 104px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   border: 1px solid rgba(171,119,67,0.18);
-  max-height: 72svh;
-  min-height: auto;
+  background: rgba(18,10,4,0.36);
+  touch-action: pan-y;
 }
 
 .lightbox-img-wrap::before {
@@ -973,6 +977,16 @@ section {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(171,119,67,0.7), transparent);
   z-index: 3;
+}
+
+.lightbox-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  user-select: none;
 }
 
 .lightbox-slide-inner {
@@ -1051,8 +1065,14 @@ section {
 .lightbox-dot.active { background: var(--terra-deep); width: 22px; border-radius: 3px; }
 
 @media (max-width: 600px) {
-  .lightbox-panel { max-width: 98vw; }
-  .lightbox-img-wrap { max-height: 65svh; min-height: auto; }
+  .lightbox-overlay { padding: 0.6rem; }
+  .lightbox-panel {
+    width: 100%;
+    max-height: 98svh;
+  }
+  .lightbox-top { padding-bottom: 0.55rem; }
+  .lightbox-img-wrap { height: min(84svh, calc(100svh - 100px)); }
+  .lightbox-nav { padding-top: 0.75rem; }
   .lightbox-slide-inner { padding: 2rem 1.5rem; }
   .lightbox-caption { font-size: 1.3rem; }
   .slide-expand-btn { opacity: 1; } /* always visible on touch */
