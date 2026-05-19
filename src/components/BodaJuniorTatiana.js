@@ -397,7 +397,7 @@ export default function BodaJuniorTatiana() {
 
       {/* Audio background */}
       <audio ref={audioRef} preload="auto">
-        <source src="/assets/wedding-background-music.mp3" type="audio/mpeg" />
+        <source src={`${process.env.PUBLIC_URL}/assets/wedding-background-music.mp3`} type="audio/mpeg" />
         Tu navegador no soporta el elemento de audio.
       </audio>
 

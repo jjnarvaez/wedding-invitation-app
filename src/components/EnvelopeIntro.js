@@ -213,7 +213,7 @@ export default function EnvelopeIntro({ onFinish }) {
 
       <div id="s-done" style={{ display: stage === 'done' ? 'flex' : 'none', opacity: stage === 'done' ? 1 : 0, transition: 'opacity .6s ease', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: '1rem', gap: '1rem' }}>
         <div className={`done-photo-wrapper${showDonePhoto ? ' show' : ''}`}>
-          <img className="done-photo" src="/assets/SaveTheDate.jpg" alt="Foto importante" />
+          <img className="done-photo" src={`${process.env.PUBLIC_URL}/assets/SaveTheDate.jpg`} alt="Foto importante" />
           <div className={`done-photo-overlay${showDoneBtn ? ' show' : ''}`}>
             <button type="button" ref={btnRef} className={`open-btn ${showDoneBtn ? 'pulse' : ''}`} onClick={goToInvite} aria-label="Abrir invitación">Ver invitación completa →</button>
           </div>
