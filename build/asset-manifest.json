@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.6806be33.css",
-    "main.js": "/static/js/main.b122c02c.js",
+    "main.css": "/static/css/main.03c12b69.css",
+    "main.js": "/static/js/main.9feaecf0.js",
     "static/media/ChelseaMarket-Regular.ttf": "/static/media/ChelseaMarket-Regular.d3bab0b3e8a42eddaa71.ttf",
     "static/media/Coffe_branch_remastered_SVG.svg": "/static/media/Coffe_branch_remastered_SVG.dc411acd5c3193b6da85f2edf115a541.svg",
     "index.html": "/index.html",
-    "main.6806be33.css.map": "/static/css/main.6806be33.css.map",
-    "main.b122c02c.js.map": "/static/js/main.b122c02c.js.map"
+    "main.03c12b69.css.map": "/static/css/main.03c12b69.css.map",
+    "main.9feaecf0.js.map": "/static/js/main.9feaecf0.js.map"
   },
   "entrypoints": [
-    "static/css/main.6806be33.css",
-    "static/js/main.b122c02c.js"
+    "static/css/main.03c12b69.css",
+    "static/js/main.9feaecf0.js"
   ]
 }
