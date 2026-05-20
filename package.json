@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Wedding invitation for Junior and Tatiana",
   "main": "src/index.js",
-  "homepage": "https://jjnarvaez.github.io/wedding-invitation-app",
+  "homepage": "https://bodatatiyjunior.online/",
   "author": "Junior Narvaez",
   "scripts": {
     "start": "react-scripts start",
