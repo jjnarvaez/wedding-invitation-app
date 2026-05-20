@@ -491,7 +491,7 @@ export default function BodaJuniorTatiana() {
             </button>
             <div className="modal-content">
               <h3 className="modal-title">Itinerario</h3>
-              <p className="modal-text">Nos encantará que puedan acompañarnos desde el inicio para vivir cada momento de esta celebración.</p>
+              <p className="modal-text">Nos encantaria que puedan acompañarnos desde el inicio hasta el fin del evento para que vivan cada momento de esta gran celebración.</p>
               <div className="modal-detail-list">
                 <div className="modal-detail-group">
                   <ul>
@@ -525,9 +525,9 @@ export default function BodaJuniorTatiana() {
               <div className="modal-detail-list">
                 <div className="modal-detail-group">
                   <ul>
-                    <li>La ceremonia <b>comenzará puntualmente</b> y no podremos retrasarla. Les recomendamos planear su salida con tiempo, ya que el lugar se encuentra a las <b>afueras de la ciudad</b>. Queremos compartir cada instante con ustedes desde el inicio.</li>
+                    <li>La ceremonia <b>comenzará puntualmente</b> y no podremos retrasarla. Les recomendamos planear su salida con tiempo, ya que el lugar se encuentra a las <b>afueras de la ciudad</b> y queremos compartir cada instante con ustedes desde el inicio.</li>
                     <li>Las noches en este lugar suelen ser frías, así que no olviden <b>llevar un abrigo o buzo</b> para disfrutar cómodamente hasta el final de la celebración.</li>
-                    <li>Sabemos que la fiesta estará inolvidable, así que traigan sus mejores pasos y también un <b>calzado cómodo</b> para la hora de bailar. Les pedimos usarlo únicamente <b>durante la fiesta.</b></li>
+                    <li>Sabemos que la fiesta estará inolvidable, asi que traigan sus mejores pasos y también un <b>calzado cómodo</b> con el que puedan disfrutar cuando estén en la pista. Les pedimos usarlo exclusivamente en el momento en el que inicie el baile.</li>
                     <li>El lugar contará con <b>parqueadero disponible.</b> Si planean disfrutar algunos tragos, les recomendamos asignar <b>conductor elegido</b> o contratar un <b>servicio de transporte</b> para regresar con tranquilidad.</li>
                     <li>Hemos soñado esta celebración como una noche para disfrutar, brindar y bailar sin pausa; por eso, nuestro matrimonio será una celebración<b> exclusiva para adultos.</b></li>
                     <li>Su presencia será nuestro mejor regalo. Sin embargo, si desean acompañarnos con un detalle adicional, agradecemos su <b>lluvia de sobres.</b></li>
