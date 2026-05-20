@@ -24,11 +24,19 @@ function Carousel() {
   const cur = ((virtIdx % N) + N) % N;
 
   /* Use real DOM offsets so vertical/horizontal slides (different widths)
-     line up exactly after any number of loops. */
+     line up exactly after any number of loops.
+     On narrow screens (slide > 50% of wrap width) the slide is centered;
+     on wider layouts the original left-edge alignment is used. */
   const slideOffset = useCallback((idx) => {
     if (!trackRef.current) return 0;
     const c = trackRef.current.children[idx];
-    return c ? c.offsetLeft : 0;
+    if (!c) return 0;
+    const wrapWidth = trackRef.current.parentElement?.offsetWidth ?? 0;
+    const slideWidth = c.offsetWidth;
+    if (slideWidth > wrapWidth * 0.5) {
+      return Math.max(0, c.offsetLeft - (wrapWidth - slideWidth) / 2);
+    }
+    return c.offsetLeft;
   }, []);
 
   const setTransform = useCallback((idx, animated) => {
