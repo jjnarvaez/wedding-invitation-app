@@ -258,7 +258,7 @@ export default function BodaJuniorTatiana() {
     : g1;
   const heroNamesText = g1
     ? g2 ? `${g1} & ${g2}` : g1
-    : 'Junior & Tatiana';
+    : 'Tatiana & Junior';
 
   return (
     <>
@@ -341,7 +341,7 @@ export default function BodaJuniorTatiana() {
           <p className="invite-body reveal">
             Entre aromas de café, miradas de complicidad y un amor que ha crecido con el tiempo, hemos decidido comenzar el viaje más bonito de nuestras vidas.<br/>
             <br/>
-            <strong style={{fontFamily:"'Playfair Display',serif",fontSize:"3.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)"}}>Junior &amp; Tatiana</strong>
+            <strong style={{fontFamily:"'Playfair Display',serif",fontSize:"3.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)"}}>Tatiana &amp; Junior</strong>
             <br/>
             <br/>
             Queremos invitarlos a compartir con nosotros este nuevo capítulo, celebrado entre sonrisas, amor y la calidez de quienes hacen parte de nuestra historia.
@@ -355,7 +355,7 @@ export default function BodaJuniorTatiana() {
       <section className="coffee-time-photo-section" aria-label="Momento café">
         <img
           src={`${process.env.PUBLIC_URL}/assets/CoffeTime.jpeg`}
-          alt="Momento especial de Junior y Tatiana"
+          alt="Momento especial de Tatiana y Junior"
           className="coffee-time-photo"
           loading="lazy"
         />
@@ -605,7 +605,7 @@ export default function BodaJuniorTatiana() {
             <CoffeeLeaf key={i} size={s} color="#AB7743" rotate={r} />
           ))}
         </div>
-        <div className="footer-names">Junior &amp; Tatiana</div>
+        <div className="footer-names">Tatiana &amp; Junior</div>
         <p className="footer-sub">4 de Septiembre · 2026 · Monarch Campestre · Rionegro, Antioquia</p>
       </footer>
 
