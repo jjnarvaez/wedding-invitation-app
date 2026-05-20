@@ -205,7 +205,7 @@ export default function EnvelopeIntro({ onFinish }) {
             </g>
 
             <rect x="110" y="158" width="60" height="24" rx="2" fill="none" stroke="#8B4513" strokeWidth=".7" opacity=".3" />
-            <text x="140" y="174" textAnchor="middle" fontFamily="'Playfair Display',Georgia,serif" fontStyle="italic" fontSize="9" fill="#8B4513" opacity=".5">J &amp; T · 2026</text>
+            <text x="140" y="174" textAnchor="middle" fontFamily="'Great Vibes',cursive" fontStyle="italic" fontSize="9" fill="#8B4513" opacity=".5">J &amp; T · 2026</text>
           </svg>
 
           <div className="wax" id="waxSeal" ref={waxRef}>
