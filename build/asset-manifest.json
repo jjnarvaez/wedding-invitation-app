@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/wedding-invitation-app/static/css/main.5828d209.css",
-    "main.js": "/wedding-invitation-app/static/js/main.89280489.js",
+    "main.js": "/wedding-invitation-app/static/js/main.0b83770a.js",
     "static/media/ChelseaMarket-Regular.ttf": "/wedding-invitation-app/static/media/ChelseaMarket-Regular.d3bab0b3e8a42eddaa71.ttf",
     "static/media/Coffe_branch_remastered_SVG.svg": "/wedding-invitation-app/static/media/Coffe_branch_remastered_SVG.dc411acd5c3193b6da85f2edf115a541.svg",
     "index.html": "/wedding-invitation-app/index.html",
     "main.5828d209.css.map": "/wedding-invitation-app/static/css/main.5828d209.css.map",
-    "main.89280489.js.map": "/wedding-invitation-app/static/js/main.89280489.js.map"
+    "main.0b83770a.js.map": "/wedding-invitation-app/static/js/main.0b83770a.js.map"
   },
   "entrypoints": [
     "static/css/main.5828d209.css",
-    "static/js/main.89280489.js"
+    "static/js/main.0b83770a.js"
   ]
 }

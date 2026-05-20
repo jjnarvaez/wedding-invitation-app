@@ -6,13 +6,7 @@ import EnvelopeIntro from './components/EnvelopeIntro';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 function AppWrapper() {
-  const [showMain, setShowMain] = useState(() => {
-    try {
-      return localStorage.getItem('envelopeOpened') === 'true';
-    } catch (e) {
-      return false;
-    }
-  });
+  const [showMain, setShowMain] = useState(false);
 
   if (!showMain) {
     return <EnvelopeIntro onFinish={() => setShowMain(true)} />;

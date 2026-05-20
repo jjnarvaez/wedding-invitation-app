@@ -9,6 +9,9 @@ import useReveal from '../hooks/useReveal';
 import useCountdown from '../hooks/useCountdown';
 import useGuests from '../hooks/useGuests';
 
+const AUDIO_STORAGE_KEY = 'weddingInvitationAudioState';
+const FORCE_AUDIO_ON_ENTER_KEY = 'forceAudioAfterEnvelopeOpen';
+
 export default function BodaJuniorTatiana() {
   useReveal();
   const [isDressCodeOpen, setIsDressCodeOpen] = useState(false);
@@ -46,23 +49,157 @@ export default function BodaJuniorTatiana() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const playAudio = async () => {
+    const loadAudioState = () => {
       try {
-        await audio.play();
-        setIsAudioPlaying(true);
-      } catch (error) {
-        console.log('Audio autoplay blocked by browser');
+        const raw = localStorage.getItem(AUDIO_STORAGE_KEY);
+        if (!raw) {
+          return { shouldPlay: true, currentTime: 0 };
+        }
+        const parsed = JSON.parse(raw);
+        return {
+          shouldPlay: parsed?.shouldPlay !== false,
+          currentTime: Number.isFinite(parsed?.currentTime) ? parsed.currentTime : 0,
+        };
+      } catch (_err) {
+        return { shouldPlay: true, currentTime: 0 };
       }
     };
 
-    // Intentar reproducir automáticamente
-    playAudio();
+    const saveAudioState = (state) => {
+      try {
+        localStorage.setItem(AUDIO_STORAGE_KEY, JSON.stringify(state));
+      } catch (_err) {
+        // Ignore storage errors (private mode/quota)
+      }
+    };
+
+    const initialState = loadAudioState();
+    let forceAudioOnEnter = false;
+    try {
+      forceAudioOnEnter = sessionStorage.getItem(FORCE_AUDIO_ON_ENTER_KEY) === 'true';
+      if (forceAudioOnEnter) {
+        sessionStorage.removeItem(FORCE_AUDIO_ON_ENTER_KEY);
+      }
+    } catch (_err) {
+      forceAudioOnEnter = false;
+    }
+    const shouldResumeOnLoad = forceAudioOnEnter ? true : initialState.shouldPlay;
+    let isCleaningUp = false;
+    let lastSavedSecond = -1;
+
+    const persistProgress = () => {
+      if (!Number.isFinite(audio.currentTime)) return;
+      const second = Math.floor(audio.currentTime);
+      if (second === lastSavedSecond) return;
+      lastSavedSecond = second;
+      saveAudioState({
+        shouldPlay: !audio.paused,
+        currentTime: audio.currentTime,
+      });
+    };
+
+    const restoreCurrentTime = () => {
+      const savedTime = Math.max(0, initialState.currentTime || 0);
+      if (!savedTime || !Number.isFinite(audio.duration) || audio.duration <= 0) return;
+      const safeTime = Math.min(savedTime, Math.max(0, audio.duration - 0.25));
+      audio.currentTime = safeTime;
+    };
 
     // Configurar loop infinito
+    audio.autoplay = true;
+    audio.playsInline = true;
+    audio.setAttribute('playsinline', '');
+    audio.setAttribute('webkit-playsinline', '');
     audio.loop = true;
     audio.volume = 0.1; // Volumen bajo para no ser intrusivo
 
+    if (audio.readyState >= 1) {
+      restoreCurrentTime();
+    } else {
+      audio.addEventListener('loadedmetadata', restoreCurrentTime, { once: true });
+    }
+
+    const tryAutoPlay = async ({ allowMutedFallback = false } = {}) => {
+      if (!shouldResumeOnLoad) {
+        setIsAudioPlaying(false);
+        return false;
+      }
+
+      try {
+        audio.muted = false;
+        await audio.play();
+        setIsAudioPlaying(true);
+        return true;
+      } catch (_err) {
+        if (!allowMutedFallback) {
+          setIsAudioPlaying(false);
+          return false;
+        }
+      }
+
+      try {
+        // Fallback: algunos navegadores permiten autoplay si inicia en mute.
+        audio.muted = true;
+        await audio.play();
+        setIsAudioPlaying(true);
+        requestAnimationFrame(() => {
+          audio.muted = false;
+          audio.volume = 0.1;
+        });
+        return true;
+      } catch (_err) {
+        setIsAudioPlaying(false);
+        return false;
+      }
+    };
+
+    // Intentar reproducir automáticamente al cargar.
+    tryAutoPlay({ allowMutedFallback: true });
+
+    const onPlay = () => {
+      if (isCleaningUp) return;
+      setIsAudioPlaying(true);
+      saveAudioState({ shouldPlay: true, currentTime: audio.currentTime || 0 });
+    };
+
+    const onPause = () => {
+      if (isCleaningUp) return;
+      setIsAudioPlaying(false);
+      saveAudioState({ shouldPlay: false, currentTime: audio.currentTime || 0 });
+    };
+
+    const onBeforeUnload = () => {
+      persistProgress();
+    };
+
+    const onFirstInteraction = () => {
+      if (!shouldResumeOnLoad) return;
+      if (!audio.paused) {
+        audio.muted = false;
+        audio.volume = 0.1;
+        return;
+      }
+      tryAutoPlay({ allowMutedFallback: false });
+    };
+
+    audio.addEventListener('timeupdate', persistProgress);
+    audio.addEventListener('play', onPlay);
+    audio.addEventListener('pause', onPause);
+    window.addEventListener('beforeunload', onBeforeUnload);
+    window.addEventListener('pointerdown', onFirstInteraction, { passive: true });
+    window.addEventListener('touchstart', onFirstInteraction, { passive: true });
+    window.addEventListener('keydown', onFirstInteraction);
+
     return () => {
+      isCleaningUp = true;
+      persistProgress();
+      audio.removeEventListener('timeupdate', persistProgress);
+      audio.removeEventListener('play', onPlay);
+      audio.removeEventListener('pause', onPause);
+      window.removeEventListener('beforeunload', onBeforeUnload);
+      window.removeEventListener('pointerdown', onFirstInteraction);
+      window.removeEventListener('touchstart', onFirstInteraction);
+      window.removeEventListener('keydown', onFirstInteraction);
       audio.pause();
     };
   }, []);
@@ -74,9 +211,26 @@ export default function BodaJuniorTatiana() {
     if (isAudioPlaying) {
       audio.pause();
       setIsAudioPlaying(false);
+      try {
+        localStorage.setItem(AUDIO_STORAGE_KEY, JSON.stringify({ shouldPlay: false, currentTime: audio.currentTime || 0 }));
+      } catch (_err) {
+        // Ignore storage errors
+      }
     } else {
-      audio.play();
-      setIsAudioPlaying(true);
+      audio.muted = false;
+      audio.volume = 0.1;
+      audio.play()
+        .then(() => {
+          setIsAudioPlaying(true);
+          try {
+            localStorage.setItem(AUDIO_STORAGE_KEY, JSON.stringify({ shouldPlay: true, currentTime: audio.currentTime || 0 }));
+          } catch (_err) {
+            // Ignore storage errors
+          }
+        })
+        .catch(() => {
+          setIsAudioPlaying(false);
+        });
     }
   };
 
@@ -456,7 +610,7 @@ export default function BodaJuniorTatiana() {
       </footer>
 
       {/* Audio background */}
-      <audio ref={audioRef} preload="auto">
+      <audio ref={audioRef} preload="auto" autoPlay playsInline>
         <source src={`${process.env.PUBLIC_URL}/assets/wedding-background-music.mp3`} type="audio/mpeg" />
         Tu navegador no soporta el elemento de audio.
       </audio>

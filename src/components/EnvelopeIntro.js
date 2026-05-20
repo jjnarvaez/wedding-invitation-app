@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import LogoSVG from './LogoSVG';
+
+const FORCE_AUDIO_ON_ENTER_KEY = 'forceAudioAfterEnvelopeOpen';
 
 export default function EnvelopeIntro({ onFinish }) {
   const flapRef = useRef(null);
@@ -89,9 +92,12 @@ export default function EnvelopeIntro({ onFinish }) {
   }, [stage]);
 
   function finishNow() {
-    try { localStorage.setItem('envelopeOpened', 'true'); } catch (e) {}
+    try {
+      sessionStorage.setItem(FORCE_AUDIO_ON_ENTER_KEY, 'true');
+    } catch (_err) {
+      // Ignore storage errors.
+    }
     if (onFinish) onFinish();
-    window.location.reload();
   }
 
   // If user clicks the final button in done stage
@@ -104,9 +110,9 @@ export default function EnvelopeIntro({ onFinish }) {
       <style>{`
         /* CSS copied from envelope_intro_animation.html with minor JSX-friendly adjustments */
         *{box-sizing:border-box;margin:0;padding:0}
-        .scene{min-height:520px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDD7;position:relative;overflow:hidden;border-radius:12px;padding:2rem 1rem;font-family:'Raleway','Helvetica Neue',sans-serif}
-        .scene::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;opacity:.45;border-radius:inherit}
-        .scene::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#5C2A08,#C06B32,#A07848,#5C2A08);border-radius:12px 12px 0 0}
+        .scene{min-height:100svh;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDD7;position:relative;overflow:hidden;border-radius:0;padding:2rem 1rem;font-family:'Raleway','Helvetica Neue',sans-serif}
+        .scene::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;opacity:.45}
+        .scene::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#5C2A08,#C06B32,#A07848,#5C2A08)}
         #s-idle{display:flex;flex-direction:column;align-items:center;gap:1.5rem}
         #s-done{display:none;flex-direction:column;align-items:center;gap:1.2rem}
         .env-wrap{position:relative;display:grid;place-items:center;width:280px;height:190px;cursor:pointer;filter:drop-shadow(0 8px 24px rgba(92,42,8,.18))}
@@ -142,11 +148,13 @@ export default function EnvelopeIntro({ onFinish }) {
         .counter{font-family:'DM Mono',monospace,sans-serif;font-size:14px;color:#A07848;letter-spacing:.12em;margin-top:.3rem}
         .sep-leaves{display:flex;gap:.6rem;align-items:center;opacity:.5}
         .sep-line{width:60px;height:1px;background:#C06B32;opacity:.4}
+        .envelope-logo{width:min(140px,34vw);opacity:.65;line-height:0;filter:drop-shadow(0 8px 18px rgba(92,42,8,.12));margin-bottom:.25rem}
+        .envelope-logo svg{width:100%;height:auto;display:block}
       `}</style>
 
       <div id="s-idle" style={{ opacity: stage === 'done' ? 0 : 1, transition: 'opacity .6s ease', pointerEvents: stage === 'done' ? 'none' : 'auto', display: stage === 'done' ? 'none' : 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-        <div style={{ fontSize: 10, letterSpacing: '.38em', textTransform: 'uppercase', color: '#A07848' }}>
-          Tienes una invitación
+        <div className="envelope-logo" aria-hidden="true">
+          <LogoSVG />
         </div>
         <div className="env-wrap" id="envWrap" onClick={startOpen}>
           <svg viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg">
