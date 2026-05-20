@@ -35,11 +35,7 @@ function QuotesCarousel() {
             {quote.text}
           </p>
           <span className="quote-author-fullscreen">{quote.author}</span>
-          <div className="quote-leaves-row-fullscreen">
-            {[{ s:12, r:-20 },{ s:16, r:0 },{ s:12, r:20 }].map(({s,r},idx) => (
-              <CoffeeLeaf key={idx} size={s} color="#B7957f" rotate={r} />
-            ))}
-          </div>
+          
         </div>
       </div>
 

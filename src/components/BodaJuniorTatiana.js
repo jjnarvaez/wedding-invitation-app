@@ -15,8 +15,10 @@ export default function BodaJuniorTatiana() {
   const [isRecommendationsOpen, setIsRecommendationsOpen] = useState(false);
   const [isItineraryOpen, setIsItineraryOpen] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isColorsExpanded, setIsColorsExpanded] = useState(false);
   const audioRef = useRef(null);
   const { d, h, m, s } = useCountdown();
+  const [isSuitExpanded, setIsSuitExpanded] = useState(false);
   const { g1, g2 } = useGuests();
 
   useEffect(() => {
@@ -159,7 +161,7 @@ export default function BodaJuniorTatiana() {
       <section className="countdown-section">
         <div className="cd-ring1" /><div className="cd-ring2" />
         <div className="section-inner">
-          <span className="section-label reveal" style={{color:"#84593D"}}>Cuenta regresiva</span>
+          <span className="section-label reveal" style={{color:"#F5EDD7"}}>Cuenta regresiva</span>
           <h2 className="section-title reveal" style={{color:"#F5EDD7"}}>El gran día se acerca</h2>
           <div className="countdown-grid stagger">
             {[{v:d,l:"Días"},{v:h,l:"Horas"},{v:m,l:"Minutos"},{v:s,l:"Segundos"}].map(({v,l},i,arr) => (
@@ -203,7 +205,7 @@ export default function BodaJuniorTatiana() {
           <div className="details-cards stagger">
             {[
               { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 6h16M4 11h16M4 16h16"/></svg>, label:"Recomendaciones", val:"Importantes", sub:"Tap para ver más" },
-              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label:"Itinerario", val:"4:00 PM - 2:00 AM", sub:"Tap para ver más" },
+              { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label:"Itinerario", val:"3:30 PM - 2:00 AM", sub:"Tap para ver más" },
               { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>, label:"Etiqueta", val:"Formal", sub:"Tap para ver más"},
             ].map(({icon,label,val,sub}) => {
               const isRecommendations = label === "Recomendaciones";
@@ -236,9 +238,9 @@ export default function BodaJuniorTatiana() {
       </section>
 
       {isDressCodeOpen && (
-        <div className="modal-overlay" onClick={() => setIsDressCodeOpen(false)}>
+        <div className="modal-overlay" onClick={() => { setIsDressCodeOpen(false); setIsColorsExpanded(false); }}>
           <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setIsDressCodeOpen(false)} aria-label="Cerrar detalles de etiqueta">
+            <button className="modal-close" onClick={() => { setIsDressCodeOpen(false); setIsColorsExpanded(false); }} aria-label="Cerrar detalles de etiqueta">
               &times;
             </button>
             <div className="modal-content">
@@ -248,8 +250,37 @@ export default function BodaJuniorTatiana() {
                 <div className="modal-detail-group">
                   <h4>Hombres</h4>
                   <ul>
-                    <li><strong>Estilo:</strong> Traje formal.</li>
+                        <li style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                          <span><strong>Estilo:</strong> Traje formal.</span>
+                          <button 
+                            className="modal-colors-expand-btn"
+                            onClick={() => {
+                              setIsSuitExpanded(!isSuitExpanded);
+                              if (!isSuitExpanded) {
+                                setTimeout(() => {
+                                  document.getElementById('suitImageRef')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }, 0);
+                              }
+                            }}
+                            title={isSuitExpanded ? "Ocultar referencia" : "Ver referencia de estilo"}
+                          >
+                            {isSuitExpanded ? 'Ocultar' : 'Ver'}
+                          </button>
+                        </li>
+                        {isSuitExpanded && (
+                          <>
+                          <div style={{padding: '0', background: 'transparent', border: 'none', display: 'flex', justifyContent: 'center'}} id="suitImageRef">
+                            <img 
+                              src={`${process.env.PUBLIC_URL}/assets/DressCode/SuitMan.jpeg`}
+                              alt="Referencia de estilo de traje formal"
+                              style={{maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', marginTop: '0.5rem'}}
+                            />
+                          </div>
+                          <br />
+                          </>
+                        )}
                     <li><strong>Colores sugeridos:</strong> Negro.</li>
+                    <li><strong>Calzado:</strong> Zapatillas (Los tenis serán para uso exclusivo en el momento del baile)</li>
                     <li><strong>Accesorios:</strong> corbata, pañuelo de bolsillo.</li>
                   </ul>
                 </div>
@@ -257,13 +288,32 @@ export default function BodaJuniorTatiana() {
                   <h4>Mujeres</h4>
                   <ul>
                     <li><strong>Estilo:</strong> Vestido largo.</li>
-                    <li><strong>Colores sugeridos:</strong> crema, ocre, terracota y tonos apagados.</li>
+                    <li style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                      <span><strong>Colores sugeridos:</strong> Café mocha, caremelo, canela, chocolate y terracota café.</span>
+                      <button 
+                        className="modal-colors-expand-btn"
+                        onClick={() => setIsColorsExpanded(!isColorsExpanded)}
+                        title={isColorsExpanded ? "Ocultar muestras" : "Ver muestras de colores"}
+                      >
+                        {isColorsExpanded ? 'Ocultar' : 'Ver'}
+                      </button>
+                    </li>
+                    {isColorsExpanded && (
+                      <li style={{padding: '0', background: 'transparent', border: 'none', display: 'flex', justifyContent: 'center'}}>
+                        <img 
+                          src={`${process.env.PUBLIC_URL}/assets/DressCode/colores.jpeg`}
+                          alt="Muestras de colores sugeridos"
+                          style={{maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', marginTop: '0.5rem'}}
+                        />
+                      </li>
+                    )}
+                    <li><strong>Calzado:</strong> Tacones de tu preferencia (Los tenis serán para uso exclusivo en el momento del baile)</li>
                   </ul>
                 </div>
               </div>
             </div>
             <div className="modal-actions">
-              <button className="modal-btn" onClick={() => setIsDressCodeOpen(false)}>Entendido</button>
+                <button className="modal-btn" onClick={() => { setIsDressCodeOpen(false); setIsColorsExpanded(false); setIsSuitExpanded(false); }}>Entendido</button>
             </div>
           </div>
         </div>
@@ -281,12 +331,12 @@ export default function BodaJuniorTatiana() {
               <div className="modal-detail-list">
                 <div className="modal-detail-group">
                   <ul>
-                    <li><strong>4:00 PM:</strong> Llegada de invitados.</li>
-                    <li><strong>4:30 PM:</strong> Ceremonia.</li>
-                    <li><strong>5:30 PM:</strong> Coctel y fotografías.</li>
+                    <li><strong>3:30 PM:</strong> Llegada de invitados.</li>
+                    <li><strong>4:00 PM:</strong> Ceremonia. (Se cierran las puertas hasta que termine la ceremonia)</li>
+                    <li><strong>5:00 PM:</strong> Cóctel y fotografías.</li>
+                    <li><strong>6:30 PM:</strong> Brindis y momentos especiales.</li>
                     <li><strong>7:00 PM:</strong> Cena.</li>
-                    <li><strong>8:30 PM:</strong> Brindis y momentos especiales.</li>
-                    <li><strong>9:00 PM:</strong> Fiesta.</li>
+                    <li><strong>8:30 PM:</strong> Fiesta.</li>
                     <li><strong>2:00 AM:</strong> Cierre del evento.</li>
                   </ul>
                 </div>
@@ -311,11 +361,11 @@ export default function BodaJuniorTatiana() {
               <div className="modal-detail-list">
                 <div className="modal-detail-group">
                   <ul>
-                    <li>La ceremonia comenzará puntualmente y no podremos retrasarla. Les recomendamos planear su salida con tiempo, ya que el lugar se encuentra a las afueras de la ciudad.Queremos compartir cada instante con ustedes desde el inicio.</li>
-                    <li>Las noches en este lugar suelen ser frías, así que no olviden llevar un abrigo o buzo para disfrutar cómodamente hasta el final de la celebración.</li>
-                    <li>Sabemos que la fiesta estará inolvidable, así que traigan sus mejores pasos… y también un calzado cómodo para la hora de bailar. Les pedimos usarlo únicamente durante la fiesta.</li>
-                    <li>El lugar contará con parqueadero disponible. Si planean disfrutar algunos tragos, les recomendamos asignar conductor elegido o contratar un servicio de transporte para regresar con tranquilidad.</li>
-                    <li>Hemos soñado esta celebración como una noche para disfrutar, brindar y bailar sin pausa; por eso, nuestro matrimonio será una celebración exclusiva para adultos.</li>
+                    <li>La ceremonia <b>comenzará puntualmente</b> y no podremos retrasarla. Les recomendamos planear su salida con tiempo, ya que el lugar se encuentra a las <b>afueras de la ciudad</b>. Queremos compartir cada instante con ustedes desde el inicio.</li>
+                    <li>Las noches en este lugar suelen ser frías, así que no olviden <b>llevar un abrigo o buzo</b> para disfrutar cómodamente hasta el final de la celebración.</li>
+                    <li>Sabemos que la fiesta estará inolvidable, así que traigan sus mejores pasos y también un <b>calzado cómodo</b> para la hora de bailar. Les pedimos usarlo únicamente <b>durante la fiesta.</b></li>
+                    <li>El lugar contará con <b>parqueadero disponible.</b> Si planean disfrutar algunos tragos, les recomendamos asignar <b>conductor elegido</b> o contratar un <b>servicio de transporte</b> para regresar con tranquilidad.</li>
+                    <li>Hemos soñado esta celebración como una noche para disfrutar, brindar y bailar sin pausa; por eso, nuestro matrimonio será una celebración<b> exclusiva para adultos.</b></li>
                     <li>Su presencia será nuestro mejor regalo. Sin embargo, si desean acompañarnos con un detalle adicional, agradecemos su <b>lluvia de sobres.</b></li>
                   </ul>
                 </div>
