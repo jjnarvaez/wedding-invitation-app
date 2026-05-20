@@ -197,6 +197,16 @@ export default function BodaJuniorTatiana() {
         </div>
       </section>
 
+      {/* ── COFFEE TIME PHOTO ── */}
+      <section className="coffee-time-photo-section" aria-label="Momento café">
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/CoffeTime.jpeg`}
+          alt="Momento especial de Junior y Tatiana"
+          className="coffee-time-photo"
+          loading="lazy"
+        />
+      </section>
+
       {/* ── DETAILS ── */}
       <section className="details-section">
         <div className="section-inner">
@@ -280,8 +290,8 @@ export default function BodaJuniorTatiana() {
                           </>
                         )}
                     <li><strong>Colores sugeridos:</strong> Negro.</li>
-                    <li><strong>Calzado:</strong> Zapatillas (Los tenis serán para uso exclusivo en el momento del baile)</li>
-                    <li><strong>Accesorios:</strong> corbata, pañuelo de bolsillo.</li>
+                    <li><strong>Calzado:</strong> Zapatillas negras (Los tenis serán para uso exclusivo en el momento del baile)</li>
+                    <li><strong>Accesorios:</strong> Corbata, pañuelo de bolsillo.</li>
                   </ul>
                 </div>
                 <div className="modal-detail-group">
