@@ -341,7 +341,7 @@ export default function BodaJuniorTatiana() {
           <p className="invite-body reveal">
             Entre aromas de café, miradas de complicidad y un amor que ha crecido con el tiempo, hemos decidido comenzar el viaje más bonito de nuestras vidas.<br/>
             <br/>
-            <strong style={{fontFamily:"'Great Vibes',cursive",fontSize:"5.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)"}}>Tati &amp; Junior</strong>
+            <strong style={{fontFamily:"'Great Vibes',cursive",fontSize:"5.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)",lineHeight: "normal"}}>Tati  &amp; Junior</strong>
             <br/>
             <br/>
             Queremos invitarlos a compartir con nosotros este nuevo capítulo, celebrado entre sonrisas, amor y la calidez de quienes hacen parte de nuestra historia.
