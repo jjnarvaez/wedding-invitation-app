@@ -281,7 +281,7 @@ export default function BodaJuniorTatiana() {
 
         
 
-        <p className="hero-label anim-up" style={{animationDelay:"0.2s"}}>Con amor los invitamos a nuestra boda</p>
+        <p className="hero-label anim-up" style={{animationDelay:"0.2s"}}>Con amor {g2 ? 'los invitamos a nuestra boda' : 'te invitamos a nuestra boda'}</p>
 
         <div className="hero-names anim-up" style={{animationDelay:"0.4s"}}>
           {heroNamesText.split(' y ').map((name, index, arr) => (
