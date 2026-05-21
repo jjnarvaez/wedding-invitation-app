@@ -341,7 +341,7 @@ export default function BodaJuniorTatiana() {
           <p className="invite-body reveal">
             Entre aromas de café, miradas de complicidad y un amor que ha crecido con el tiempo, hemos decidido comenzar el viaje más bonito de nuestras vidas.<br/>
             <br/>
-            <strong style={{fontFamily:"'Great Vibes',cursive",fontSize:"5.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)",lineHeight: "normal"}}>Tati  &amp; Junior</strong>
+            <strong style={{fontFamily:"'Great Vibes',cursive",fontSize:"5.45em",fontWeight:400,fontStyle:"italic",color:"var(--text-dark)",lineHeight: "normal"}}>Tati &amp;Junior</strong>
             <br/>
             <br/>
             Queremos invitarlos a compartir con nosotros este nuevo capítulo, celebrado entre sonrisas, amor y la calidez de quienes hacen parte de nuestra historia.
@@ -590,9 +590,8 @@ export default function BodaJuniorTatiana() {
             <div className="rsvp-sep-line" />
           </div>
           <div className="rsvp-buttons reveal">
-            <a className="rsvp-btn primary" href="https://wa.me/573166865818?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Junior%20y%20Tati%20el%204%20de%20septiembre%20de%202026%20%F0%9F%8C%BF%E2%98%95" target="_blank" rel="noopener noreferrer">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.83L.057 23.428a.5.5 0 0 0 .609.61l5.703-1.493A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.9a9.9 9.9 0 0 1-5.031-1.373l-.36-.215-3.733.977.997-3.645-.234-.374A9.86 9.86 0 0 1 2.1 12c0-5.467 4.433-9.9 9.9-9.9 5.467 0 9.9 4.433 9.9 9.9 0 5.467-4.433 9.9-9.9 9.9z"/></svg>
-              Confirmar por WhatsApp
+            <a className="rsvp-btn primary" href="https://forms.gle/PCNasbhgUAAzhnej8" target="_blank" rel="noopener noreferrer">
+              Confirmar Asistencia
             </a>
           </div>
         </div>
